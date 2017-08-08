@@ -1,5 +1,23 @@
 # chatbot demos with reinforcement learning
 
+## references and readings
+
+some examples based on:
+
+https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
+
+RL and Q-learning article
+
+http://neuro.cs.ut.ee/demystifying-deep-reinforcement-learning/
+
+David Silver DeepMind RL course (lecture 1)
+
+https://www.youtube.com/watch?v=2pWv7GOvuf0
+
+Reinforcement Learning (reward functions, Bellman eqn)
+
+https://web.fe.up.pt/~eol/schaefer/diplom/ReinforcementLearning.htm
+
 ## demo 1: Q-Table chatbot demo
 
 **slot-filling state representation**:
