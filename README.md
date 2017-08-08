@@ -44,6 +44,8 @@ noise is simulated by changing the last state update at random
 
 **analysis**
 
+(*NB: these numbers are out-of-date but still reflective of the results*)
+
 the state values correspond to the following:
 
 `['greeting', 'product', 'query', 'answer', 'anything_else', 'goodbye']`
@@ -89,7 +91,3 @@ if the only things left are to ask `anything_else` and/or say `goodbye`, the bes
                     -1.8934962430845368,
                     -0.992773603427263] # goodbye
 ```
-
-**problems**
-
-if a greeting is not given and the conversation progresses straight to asking about `product` or `query`, best options are incorrect. this may be due to poor implementation of policy rewards in environment regarding initial greetings

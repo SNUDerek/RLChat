@@ -12,12 +12,12 @@ print("table lookup Q-learning\n")
 # initialize table with all zeros
 # Q = np.zeros([env.state_len, env.action_len])
 # todo: intialize with randomized (small) values?
-Q = np.multiply(np.random.rand(env.state_len, env.action_len), 0.01)
+Q = np.multiply(np.random.rand(env.state_len, env.action_len), 0.005)
 
 # set learning parameters (learning rate lr, discount factor y [should be ~0.9])
-lr = .60
-y = .9
-num_episodes = 250000
+lr = .50
+y = .95
+num_episodes = 50000
 
 #create lists to contain total rewards and steps per episode
 doneList = []
@@ -33,14 +33,16 @@ for i in range(num_episodes):
     d = False
     j = 0
 
+    tmp_idx += 1
+
     # Q-Table learning algorithm
     while j < 20:
         j += 1
-        tmp_idx += 1
+
 
         # choose an action by greedily (with noise) picking from Q table
-        # todo: disabled reducing randomness over time for more exploration
-        a = np.argmax(np.multiply(Q[s,:] + np.random.randn(1, env.action_len), 0.5)) # * (1./(i+1)))
+        # todo: reduced noise and disabled reducing randomness over time for more exploration
+        a = np.argmax(np.multiply(Q[s,:] + np.random.randn(1, env.action_len) * (1./(i+1)), 0.5)) #  * (1./(i+1))
 
         # get new state and reward from environment
         s1, r, d = env.step(a)

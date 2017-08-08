@@ -27,7 +27,7 @@ class Environment0(object):
 
     # todo: add memory, functionality for slot ~values~
 
-    def __init__(self, slot_list, noise_level=0.05, annoyance_level=5):
+    def __init__(self, slot_list, noise_level=0.05, annoyance_level=7):
 
         self.slot_list = slot_list
         self.noise_level = noise_level
@@ -138,22 +138,23 @@ class Environment0(object):
 
         # MINOR ANNOYANCES
 
-        # if no greeting in the first few turns, penalize 1 (minor)
-        if action != 'greeting' and self.turnnumber < 3 and last_state[self.x2i['greeting']] == 0:
+        # if no greeting in the first few turns, penalize (minor)
+        if action != 'greeting' and self.turnnumber < 2 and last_state[self.x2i['greeting']] == 0:
 
             self.annoyance += 1
 
-        # if give greeting after the first few turns, penalize 2 (moderate)
-        if action == 'greeting' and self.turnnumber > 3:
+        # if give greeting after the first few turns, penalize (moderate)
+        if action == 'greeting' and self.turnnumber > 2:
 
-            self.annoyance += 2
+            self.annoyance += 6
+            reward = -0.05
 
-        # if goodbye without 'anything else', penalize 1 (minor)
+        # if goodbye without 'anything else', penalize (minor)
         if action != 'goodbye' and last_state[self.x2i['anything_else']] == 0:
 
             self.annoyance += 1
 
-        # if asking about ANY slot that's already filled
+        # if asking about ANY slot that's already filled, penalize (moderate)
         # i.e. asking repeat questions
         if last_state[self.x2i[action]] == 1:
 
@@ -184,12 +185,24 @@ class Environment0(object):
             # return the state, reward, early termination (death), and the idx (for noise)
             return self.customer_state, reward, hang_up, self.x2i[action]
 
-        # else, if end goal met (asked problem, gave answer, said goodbye), reward
+        # else, if end goal met (asked problem and query, gave answer, said goodbye), reward best
         if action == 'goodbye' and (last_state[self.x2i['query']] == 1 \
+                                   and last_state[self.x2i['product']] == 1 \
                                    and last_state[self.x2i['answer']] == 1):
 
             hang_up = True
             reward = 1000
+
+            # return the state, reward, early termination (death), and the idx (for noise)
+            return self.customer_state, reward, hang_up, self.x2i[action]
+
+
+        # else, if end goal met (asked problem, gave answer, said goodbye), reward small
+        elif action == 'goodbye' and (last_state[self.x2i['query']] == 1 \
+                                   and last_state[self.x2i['answer']] == 1):
+
+            hang_up = True
+            reward = 100
 
             # return the state, reward, early termination (death), and the idx (for noise)
             return self.customer_state, reward, hang_up, self.x2i[action]
